@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Prism.Module1.Views.UsersListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             x:Name="this"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <TextBlock Text="Users" />
+        <ListBox ItemsSource="{Binding Users}" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Edit" Margin="0 0 15 0" Command="{Binding DataContext.EditUserCommand, ElementName=this}" CommandParameter="{Binding}" />
+                        <TextBlock Text="{Binding Name}" />                        
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Add User" Command="{Binding AddUserCommand}" />
+            <Button Content="Refresh list" Command="{Binding RefreshUsersListCommand}" />
+        </StackPanel>
+        
+    </StackPanel>
+</UserControl>

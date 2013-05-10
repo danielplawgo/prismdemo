@@ -1,0 +1,16 @@
+﻿<Window x:Class="Prism.Shell.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:inf="clr-namespace:Prism.Infrastucture;assembly=Prism.Infrastucture"
+        Title="MainWindow" Height="350" Width="525">
+    <DockPanel LastChildFill="True">
+        <ItemsControl x:Name="Menu" prism:RegionManager.RegionName="{x:Static inf:RegionNames.Menu}" DockPanel.Dock="Top">
+
+        </ItemsControl>
+        <ContentControl x:Name="StatusBar" DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static inf:RegionNames.StatusBar}">
+            
+        </ContentControl>
+        <ContentControl x:Name="Main" prism:RegionManager.RegionName="{x:Static inf:RegionNames.Main}"></ContentControl>
+    </DockPanel>
+</Window>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Users\Daniel\Documents\Visual Studio 2012\Projects\Prism.Shell\Tests.nunit</TopNode>
+  <SelectedNode>[0-1003]Prism.Module1.Tests.ViewModels.UsersListViewModelTests.CheckEventAggregatorNull</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Users\Daniel\Documents\Visual Studio 2012\Projects\Prism.Shell\Tests.nunit" Expanded="true" />
+    <Node UniqueName="[0-1006]C:\Users\Daniel\Documents\Visual Studio 2012\Projects\Prism.Shell\Prism.Module1.Tests\bin\Debug\Prism.Module1.Tests.dll" Expanded="true" />
+    <Node UniqueName="[0-1007]Prism" Expanded="true" />
+    <Node UniqueName="[0-1008]Prism.Module1" Expanded="true" />
+    <Node UniqueName="[0-1009]Prism.Module1.Tests" Expanded="true" />
+    <Node UniqueName="[0-1010]Prism.Module1.Tests.ViewModels" Expanded="true" />
+    <Node UniqueName="[0-1001]Prism.Module1.Tests.ViewModels.UsersListViewModelTests" Expanded="true" />
+  </Nodes>
+</VisualState>
