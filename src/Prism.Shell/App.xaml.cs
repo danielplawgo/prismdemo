@@ -12,6 +12,11 @@ namespace Prism.Shell
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Metoda uruchamiana podczas startu aplikacji, jest ona odpowiedzialna za utworzenie Bootstrappera oraz uruchomienie metody Run.
+        /// Brak tej metody spowoduje, że nie się nie uruchomi.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

@@ -4,6 +4,14 @@
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:inf="clr-namespace:Prism.Infrastucture;assembly=Prism.Infrastucture"
         Title="MainWindow" Height="350" Width="525">
+    <!--
+    Shell to główne okno aplikacji. W nim definiujemy ogólny wygląd oraz regiony.
+    Region to część okna do której moduły wrzucać będą swoje widoki.
+    Każdy region ma swoją nazwę (za pomocą które później będziemy określać miejsce wrzucenia widoku).
+    Aby nie bazować na stringach w nazwach regionów utworzyłem w projekcie Prism.Infrastucture klasę RegionNames.
+    Która zawiera statyczne tylko do odczytu zmienne określające nazwy regionów (które są niżej wykorzystywane).
+    Dzięki czemu nie zrobimy literówki podczas określenia nazwy regionu, bo kompilator to wyłapie na etapie kompilacji.
+    -->
     <DockPanel LastChildFill="True">
         <ItemsControl x:Name="Menu" prism:RegionManager.RegionName="{x:Static inf:RegionNames.Menu}" DockPanel.Dock="Top">
 
