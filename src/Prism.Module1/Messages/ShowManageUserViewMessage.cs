@@ -8,10 +8,12 @@ using Prism.Infrastucture.Messages;
 
 namespace Prism.Module1.Messages
 {
-    public class AddedUserMessage : BaseMessage
+    public class ShowManageUserViewMessage : BaseMessage
     {
         public User User { get; set; }
     }
 
-    public class AddedUserEvent : CompositePresentationEvent<AddedUserMessage>{}
+    public class ShowManageUserEvent : CompositePresentationEvent<ShowManageUserViewMessage>
+    {
+    }
 }

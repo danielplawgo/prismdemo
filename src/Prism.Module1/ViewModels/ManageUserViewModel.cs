@@ -17,43 +17,14 @@ namespace Prism.Module1.ViewModels
     {
         private IUserService _userService;
         private IEventAggregator _eventAggregator;
-        private IRegionManager _regionManager;
 
-        public ManageUserViewModel(IUserService userService, IEventAggregator eventAggregator, IRegionManager regionManager, IManageUserView view)
+        public ManageUserViewModel(IUserService userService, IEventAggregator eventAggregator, IManageUserView view)
             : base(view)
         {
             _userService = userService;
             _eventAggregator = eventAggregator;
-            _regionManager = regionManager;
-        }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            var userKey = navigationContext.Parameters[Strings.User];
-
-            if (string.IsNullOrEmpty(userKey))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);//very important line of code
-
-            var userKey = navigationContext.Parameters[Strings.User];
-
-            if (string.IsNullOrEmpty(userKey))
-            {
-                IsEditMode = false;
-                User = new User();
-            }
-            else
-            {
-                IsEditMode = true;
-                User = NavigationParameters.Get<User>(userKey);
-            }
+            User = new User();
         }
 
         private User _user;
@@ -67,7 +38,21 @@ namespace Prism.Module1.ViewModels
             {
                 if (_user != value)
                 {
+                    if (_user != null)
+                    {
+                        _user.PropertyChanged -= UserPropertyChanged;
+                    }
+
                     _user = value;
+                    if (_user == null)
+                    {
+                        _user = new User();
+                        IsEditMode = false;
+                    }
+                    else
+                    {
+                        IsEditMode = true;
+                    }
                     _user.PropertyChanged += UserPropertyChanged;
                     OnPropertyChanged(() => this.User);
                 }
@@ -107,28 +92,35 @@ namespace Prism.Module1.ViewModels
                     () =>
                     {
                         _userService.Save(User);
-                        if (IsEditMode == false)
-                        {
-                            _eventAggregator
-                                .GetEvent<AddedUserEvent>()
-                                .Publish(new AddedUserMessage() { User = User });
-                            _regionManager.Regions[RegionNames.Main].RequestNavigate<IUsersListViewModel>();
-                        }
+                        _eventAggregator
+                                .GetEvent<SavedUserEvent>()
+                                .Publish(new SavedUserMessage()
+                                {
+                                    User = User,
+                                    IsNewUser = !IsEditMode
+                                });
                     },
                     () => User != null && User.IsValid);
-                    
+
                 }
                 return _saveUserCommand;
             }
         }
 
+        private DelegateCommand _cancelCommand;
         public DelegateCommand CancelCommand
         {
             get
             {
-                return new DelegateCommand(
-                    () => _regionManager.Regions[RegionNames.Main].RequestNavigate<IUsersListViewModel>()
-                );
+                if (_cancelCommand == null)
+                {
+                    _cancelCommand = new DelegateCommand(
+                     () => _eventAggregator
+                         .GetEvent<ShowUserListViewEvent>()
+                         .Publish(new ShowUserListViewMessage())
+                 );
+                }
+                return _cancelCommand;
             }
         }
     }

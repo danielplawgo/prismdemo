@@ -21,7 +21,6 @@ namespace Prism.Module1.Tests.ViewModels
     {
         IUserService _userService;
         IEventAggregator _eventAggregator;
-        IRegionManager _regionManager;
         IUsersListView _view;
         UsersListViewModel _viewModel;
 
@@ -30,46 +29,38 @@ namespace Prism.Module1.Tests.ViewModels
         {
             _userService = A.Fake<IUserService>();
             _eventAggregator = A.Fake<IEventAggregator>();
-            _regionManager = A.Fake<IRegionManager>();
             _view = A.Fake<IUsersListView>();
-            _viewModel = new UsersListViewModel(_userService, _eventAggregator, _regionManager, _view);
+            _viewModel = new UsersListViewModel(_userService, _eventAggregator, _view);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CheckUserServiceNull()
         {
-            UsersListViewModel viewModel = new UsersListViewModel(null, _eventAggregator, _regionManager, _view);
+            UsersListViewModel viewModel = new UsersListViewModel(null, _eventAggregator, _view);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CheckEventAggregatorNull()
         {
-            UsersListViewModel viewModel = new UsersListViewModel(_userService, null, _regionManager, _view);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void CheckRegionManagerNull()
-        {
-            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, null, _view);
+            UsersListViewModel viewModel = new UsersListViewModel(_userService, null, _view);
         }
 
         [Test]
         public void CheckSubscribeForAddedUserMessage()
         {
-            AddedUserEvent addedUserEvent = A.Fake<AddedUserEvent>();
-            A.CallTo(() => _eventAggregator.GetEvent<AddedUserEvent>())
+            SavedUserEvent addedUserEvent = A.Fake<SavedUserEvent>();
+            A.CallTo(() => _eventAggregator.GetEvent<SavedUserEvent>())
                 .Returns(addedUserEvent);
 
-            A.CallTo(() => addedUserEvent.Subscribe(A<Action<AddedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<AddedUserMessage>>.Ignored));
+            A.CallTo(() => addedUserEvent.Subscribe(A<Action<SavedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<SavedUserMessage>>.Ignored));
 
-            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, _regionManager, _view);
+            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, _view);
 
-            A.CallTo(() => _eventAggregator.GetEvent<AddedUserEvent>())
+            A.CallTo(() => _eventAggregator.GetEvent<SavedUserEvent>())
                 .MustHaveHappened();
-            A.CallTo(() => addedUserEvent.Subscribe(A<Action<AddedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<AddedUserMessage>>.Ignored))
+            A.CallTo(() => addedUserEvent.Subscribe(A<Action<SavedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<SavedUserMessage>>.Ignored))
                 .MustHaveHappened();
         }
 

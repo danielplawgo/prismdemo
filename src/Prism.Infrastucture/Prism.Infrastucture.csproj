@@ -57,12 +57,9 @@
   <ItemGroup>
     <Compile Include="BaseModule.cs" />
     <Compile Include="BaseViewModel.cs" />
-    <Compile Include="Extensions\INavigateAsyncExtentions.cs" />
-    <Compile Include="Extensions\IUnityContainerExtensions.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="Messages\BaseMessage.cs" />
-    <Compile Include="NavigationParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +83,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

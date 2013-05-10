@@ -7,7 +7,7 @@ using Microsoft.Practices.Prism.Regions;
 
 namespace Prism.Infrastucture
 {
-    public interface IViewModel : INotifyPropertyChanged, INavigationAware
+    public interface IViewModel : INotifyPropertyChanged
     {
         IView View { get; set; }
     }

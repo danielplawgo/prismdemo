@@ -58,7 +58,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Messages\AddedUserMessage.cs" />
+    <Compile Include="Messages\SavedUserMessage.cs" />
+    <Compile Include="Messages\ShowManageUserViewMessage.cs" />
+    <Compile Include="Messages\ShowUserListViewMessage.cs" />
     <Compile Include="Module1.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

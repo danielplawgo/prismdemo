@@ -37,20 +37,5 @@ namespace Prism.Module1.Views
                 DataContext = value;
             }
         }
-
-        public bool IsNavigationTarget(Microsoft.Practices.Prism.Regions.NavigationContext navigationContext)
-        {
-            return ViewModel.IsNavigationTarget(navigationContext);
-        }
-
-        public void OnNavigatedFrom(Microsoft.Practices.Prism.Regions.NavigationContext navigationContext)
-        {
-            ViewModel.OnNavigatedFrom(navigationContext);
-        }
-
-        public void OnNavigatedTo(Microsoft.Practices.Prism.Regions.NavigationContext navigationContext)
-        {
-            ViewModel.OnNavigatedTo(navigationContext);
-        }
     }
 }

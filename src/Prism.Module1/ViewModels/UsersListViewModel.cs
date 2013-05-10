@@ -20,9 +20,8 @@ namespace Prism.Module1.ViewModels
     {
         private IUserService _userService;
         private IEventAggregator _eventAggregator;
-        private IRegionManager _regionManager;
 
-        public UsersListViewModel(IUserService userService, IEventAggregator eventAggregator, IRegionManager regionManager, IUsersListView view)
+        public UsersListViewModel(IUserService userService, IEventAggregator eventAggregator, IUsersListView view)
             : base(view)
         {
             if (userService == null)
@@ -37,18 +36,15 @@ namespace Prism.Module1.ViewModels
             }
             _eventAggregator = eventAggregator;
 
-            if (regionManager == null)
-            {
-                throw new ArgumentNullException("regionManager");
-            }
-            _regionManager = regionManager;
-
-            _eventAggregator.GetEvent<AddedUserEvent>().Subscribe(ProcessAddedUserMessage);
+            _eventAggregator.GetEvent<SavedUserEvent>().Subscribe(ProcessSavedUserMessage);
         }
 
-        private void ProcessAddedUserMessage(AddedUserMessage message)
+        public void ProcessSavedUserMessage(SavedUserMessage message)
         {
-            Users.Add(message.User);
+            if (message.IsNewUser)
+            {
+                Users.Add(message.User);
+            }
         }
 
         public void Load()
@@ -99,7 +95,9 @@ namespace Prism.Module1.ViewModels
                 if (_addUserCommand == null)
                 {
                     _addUserCommand = new DelegateCommand(
-                    () => _regionManager.Regions[RegionNames.Main].RequestNavigate<IManageUserViewModel>());
+                    () => _eventAggregator
+                        .GetEvent<ShowManageUserEvent>()
+                        .Publish(new ShowManageUserViewMessage()));
                 }
                 return _addUserCommand;
             }
@@ -113,25 +111,16 @@ namespace Prism.Module1.ViewModels
                 if (_editUserCommand == null)
                 {
                     _editUserCommand = new DelegateCommand<User>(
-                        user =>
-                        {
-                            UriQuery query = new UriQuery();
-                            var key = NavigationParameters.Add<User>(user);
-                            query.Add(Strings.User, key);
-
-                            _regionManager.Regions[RegionNames.Main].RequestNavigate<IManageUserViewModel>(query);
-                        }
+                        user => _eventAggregator
+                            .GetEvent<ShowManageUserEvent>()
+                            .Publish(new ShowManageUserViewMessage()
+                            {
+                                User = user
+                            })
                     );
                 }
                 return _editUserCommand;
             }
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-
-            OnPropertyChanged(() => this.Users);
         }
     }
 }

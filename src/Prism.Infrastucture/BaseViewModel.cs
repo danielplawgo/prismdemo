@@ -77,25 +77,5 @@ namespace Prism.Infrastucture
         }
 
         #endregion
-
-        public virtual bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public virtual void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            
-        }
-        private bool _viewIsAddedToRegion = false;
-        public virtual void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            if (_viewIsAddedToRegion == false)
-            {
-                navigationContext.NavigationService.Region.Add(View);
-                _viewIsAddedToRegion = true;
-            }
-            navigationContext.NavigationService.Region.Activate(View);
-        }
     }
 }

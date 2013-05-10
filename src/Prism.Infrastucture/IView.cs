@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Prism.Infrastucture
 {
-    public interface IView : INavigationAware
+    public interface IView
     {
         IViewModel ViewModel { get; set; }
     }

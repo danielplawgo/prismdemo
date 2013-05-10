@@ -31,5 +31,11 @@ namespace Prism.Shell
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(Module1.Module1));
         }
+
+        protected override void ConfigureContainer()
+        {
+            base.ConfigureContainer();
+            Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
+        }
     }
 }
