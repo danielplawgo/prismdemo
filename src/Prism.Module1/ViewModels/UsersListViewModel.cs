@@ -36,6 +36,11 @@ namespace Prism.Module1.ViewModels
                 throw new ArgumentNullException("eventAggregator");
             }
             _eventAggregator = eventAggregator;
+
+            if (regionManager == null)
+            {
+                throw new ArgumentNullException("regionManager");
+            }
             _regionManager = regionManager;
 
             _eventAggregator.GetEvent<AddedUserEvent>().Subscribe(ProcessAddedUserMessage);
@@ -49,14 +54,7 @@ namespace Prism.Module1.ViewModels
         public void Load()
         {
             var data = _userService.GetUsers();
-            if (data == null)
-            {
-                Users = new ObservableCollection<User>();
-            }
-            else
-            {
-                Users = new ObservableCollection<User>(data);
-            }
+            Users = data == null ? new ObservableCollection<User>() : new ObservableCollection<User>(data);
         }
 
         private ObservableCollection<User> _users;
@@ -80,35 +78,41 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        private DelegateCommand _refreshUsersListCommand;
         public DelegateCommand RefreshUsersListCommand
         {
             get
             {
-                return new DelegateCommand(
-                    () =>
-                    {
-                        Load();
-                    });
+                if (_refreshUsersListCommand == null)
+                {
+                    _refreshUsersListCommand = new DelegateCommand(Load);
+                }
+                return _refreshUsersListCommand;
             }
         }
 
+        private DelegateCommand _addUserCommand;
         public DelegateCommand AddUserCommand
         {
             get
             {
-                return new DelegateCommand(
-                    () =>
-                    {
-                        _regionManager.Regions[RegionNames.Main].RequestNavigate<IManageUserViewModel>();
-                    });
+                if (_addUserCommand == null)
+                {
+                    _addUserCommand = new DelegateCommand(
+                    () => _regionManager.Regions[RegionNames.Main].RequestNavigate<IManageUserViewModel>());
+                }
+                return _addUserCommand;
             }
         }
 
-
+        private DelegateCommand<User> _editUserCommand;
         public DelegateCommand<User> EditUserCommand
         {
-            get {
-                return new DelegateCommand<User>(
+            get
+            {
+                if (_editUserCommand == null)
+                {
+                    _editUserCommand = new DelegateCommand<User>(
                         user =>
                         {
                             UriQuery query = new UriQuery();
@@ -118,6 +122,8 @@ namespace Prism.Module1.ViewModels
                             _regionManager.Regions[RegionNames.Main].RequestNavigate<IManageUserViewModel>(query);
                         }
                     );
+                }
+                return _editUserCommand;
             }
         }
 

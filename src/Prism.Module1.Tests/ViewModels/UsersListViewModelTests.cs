@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Prism.Module1.Messages;
 using Prism.Module1.Service;
 using FakeItEasy;
 using Prism.Infrastucture;
@@ -49,11 +50,35 @@ namespace Prism.Module1.Tests.ViewModels
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CheckRegionManagerNull()
+        {
+            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, null, _view);
+        }
+
+        [Test]
+        public void CheckSubscribeForAddedUserMessage()
+        {
+            AddedUserEvent addedUserEvent = A.Fake<AddedUserEvent>();
+            A.CallTo(() => _eventAggregator.GetEvent<AddedUserEvent>())
+                .Returns(addedUserEvent);
+
+            A.CallTo(() => addedUserEvent.Subscribe(A<Action<AddedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<AddedUserMessage>>.Ignored));
+
+            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, _regionManager, _view);
+
+            A.CallTo(() => _eventAggregator.GetEvent<AddedUserEvent>())
+                .MustHaveHappened();
+            A.CallTo(() => addedUserEvent.Subscribe(A<Action<AddedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<AddedUserMessage>>.Ignored))
+                .MustHaveHappened();
+        }
+
+        [Test]
         public void LoadCorrectData()
         {
             A.CallTo(() => _userService.GetUsers())
                 .Returns((new List<User>() { new User { Name = "Daniel" } }));
-                        
+
             _viewModel.Load();
 
             A.CallTo(() => _userService.GetUsers()).MustHaveHappened();
