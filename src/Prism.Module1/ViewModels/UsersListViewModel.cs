@@ -16,6 +16,9 @@ using Prism.Module1.Messages;
 
 namespace Prism.Module1.ViewModels
 {
+    /// <summary>
+    /// Klasa viewModelu odpowiedzialnego za widok listy u€żytkowników.
+    /// </summary>
     public class UsersListViewModel : BaseViewModel, IUsersListViewModel
     {
         private IUserService _userService;
@@ -36,9 +39,16 @@ namespace Prism.Module1.ViewModels
             }
             _eventAggregator = eventAggregator;
 
+            //rejestrujemy się na zdarzenie zapisania danych użytkownika, aby dodać nowego użytkownika
+            //do listy uzytkowników
             _eventAggregator.GetEvent<SavedUserEvent>().Subscribe(ProcessSavedUserMessage);
         }
 
+        /// <summary>
+        /// Metoda obsługi zdarzenia SaveUserEvent. W sytuacji, gdy został dodane nowy użytkownik, zosatnie on 
+        /// dodany do listy użytkowników.
+        /// </summary>
+        /// <param name="message"></param>
         public void ProcessSavedUserMessage(SavedUserMessage message)
         {
             if (message.IsNewUser)
@@ -47,12 +57,23 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        /// <summary>
+        /// Metoda odpowiedzialna za wczytanie użytkowników z wykorzystaniem UserService.
+        /// </summary>
         public void Load()
         {
             var data = _userService.GetUsers();
             Users = data == null ? new ObservableCollection<User>() : new ObservableCollection<User>(data);
         }
 
+        /// <summary>
+        /// Kolecja użytkowników do wyświetlenia.
+        /// Istotne jest aby skorzytać z klasy ObservableCollection w przeciwieństwie do klasycznej listy (List).
+        /// Kolekcja ObservableCollection informuje za pomocą zdarzenia, że jej zawartość się zmieniła 
+        /// (w sensie, że coś zostało dodane, usuniętę - co istotne nie informuje, czy obiekty, któe przechowuje
+        /// się zmieniły). Przy wykorzystaniu bindingu wpf będzie automatycznie aktulizował widok, gdy dodany/usuniemy
+        /// coś z kolekcji.
+        /// </summary>
         private ObservableCollection<User> _users;
         public ObservableCollection<User> Users
         {
@@ -74,6 +95,10 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        /// <summary>
+        /// Komenda obsługująca przycisk odświeżania danych w liście użytkowników. Zostaje ponownie 
+        /// wywołana metoda Load.
+        /// </summary>
         private DelegateCommand _refreshUsersListCommand;
         public DelegateCommand RefreshUsersListCommand
         {
@@ -87,6 +112,11 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        /// <summary>
+        /// Komenda obsugjąca przycisk dodanie nowego użytkownika. Zostaje wysłana wiadomość,
+        /// aby wyświetlić widok edycji danych użytkownika. Nie zosatje ustawiony jaki użytkownika
+        /// ma zostać edytowany, przez co zosatnie wyświetlony widok dodania nowego użytkownika.
+        /// </summary>
         private DelegateCommand _addUserCommand;
         public DelegateCommand AddUserCommand
         {
@@ -103,6 +133,17 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        /// <summary>
+        /// Komenda obsługi edycji przycisku. Tutaj została wykorzystana generuczna klasa DelegateCommand,
+        /// gdzie jest wykorzystywany parametr do przekazania jakiego użytkownika należy edytować.
+        /// W widoku do wyświetlenia listy użytkownikow jest wykorzystywany ListBox, dla któego został określony
+        /// ItemTemplate slużony do wyświetlenia danych użytkownika. W template został osadzony przycisk,
+        /// którey jest zbindowany z tą komendą. Bindując komendę można jeszcze określić parametr przekazywany do komendy
+        /// W tym przypadku jest to obiekt użytkownika. Gdy korzystwamy z generycznej klasy DelegateCommand,
+        /// zmienia się sygnatura metody w pierwszym mi drugim parametrze konstruktora. Obie metody muszę
+        /// przyjmować w takiej sytuacji argument typu generyczne (tutaj obiekt User).
+        /// Komenda wysyła wiadomość wyświetlenia widoku edycji użytkownika.
+        /// </summary>
         private DelegateCommand<User> _editUserCommand;
         public DelegateCommand<User> EditUserCommand
         {

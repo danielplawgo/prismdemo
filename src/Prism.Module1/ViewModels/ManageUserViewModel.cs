@@ -13,6 +13,9 @@ using Prism.Module1.Messages;
 
 namespace Prism.Module1.ViewModels
 {
+    /// <summary>
+    /// Klasa viewmodelu odpowiedzalna za logikę widoku edycji danych użytkownika.
+    /// </summary>
     public class ManageUserViewModel : BaseViewModel, IManageUserViewModel
     {
         private IUserService _userService;
@@ -27,6 +30,9 @@ namespace Prism.Module1.ViewModels
             User = new User();
         }
 
+        /// <summary>
+        /// Właściwość reprezentując użytkownika do edycji.
+        /// </summary>
         private User _user;
         public User User
         {
@@ -36,15 +42,17 @@ namespace Prism.Module1.ViewModels
             }
             set
             {
-                if (_user != value)
+                if (_user != value)//logikę settera wykonujemy tylko w momencje, gdy zmienił się użytkownik
                 {
                     if (_user != null)
                     {
+                        //przy zmianie uzytkownika do edycji musimy na potrzednim użytkowniku
+                        //odrejestrować się ze zdarzenia PropertyChanged
                         _user.PropertyChanged -= UserPropertyChanged;
                     }
 
                     _user = value;
-                    if (_user == null)
+                    if (_user == null)//Null określa, że będziemy dodawać nowego użytkownika.
                     {
                         _user = new User();
                         IsEditMode = false;
@@ -53,6 +61,9 @@ namespace Prism.Module1.ViewModels
                     {
                         IsEditMode = true;
                     }
+                  //Pod zdarzenie PropertyChanged użytkownika podpisanymy się dlatego, aby obsłużyć zmianę widoku
+                    //w momencie walidacji. W metodzie UserPropertyChanged sprawdzamy, czy użytkownik się waliduje
+                    //oraz na podstawie wyniku walidacji aktualizuje widok.
                     _user.PropertyChanged += UserPropertyChanged;
                     OnPropertyChanged(() => this.User);
                 }
@@ -61,9 +72,18 @@ namespace Prism.Module1.ViewModels
 
         void UserPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            //Komenda SaveUserCommand w metodzie CanExecute sprawdza, czy użytkownik się waliduje.
+            //Metoda CanExecute domyślne uruchamiana jest tylko przy tworzeniu bindingu.
+            //Dlatego przy właściwości użytkownika musimy za pomocą metody RaiseCanExecuteChanged
+            //wymówić jej ponowne wykonanie. Brak tego spowoduje, że interfejs użytkownika nie
+            //będzie się aktualizować przy zmiane danych użytkownika.
             SaveUserCommand.RaiseCanExecuteChanged();
+
         }
 
+        /// <summary>
+        /// Właściwość określa, czy widok jest do edycji użytkownia, czy do dodania nowego użytkownika.
+        /// </summary>
         private bool _isEditMode;
         public bool IsEditMode
         {
@@ -81,6 +101,20 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        /// <summary>
+        /// Komenda służąca do zapisania danych użytkownika. Pierwszy parametr konstruktora obektu DelegateCommand
+        /// określa metodę wykonaną w momencie nacisknięcia na przycisk. Osobiście lubie wykorystawać do
+        /// tego lamba expersion, bo jest wtedy czytelniej i od razu widzę, co ma się wykonać (w wiekszości
+        /// przypadku logikę będziemy oddelegowywać do jakieś usługi, któa wykona wszystko za nas).
+        /// Komenda zapisuje dane użytkownika z wykorzystaniem usługi UserService oraz wysyła odpowiednią 
+        /// wiadomość.
+        /// Drugi parametr konstruktora określa,  czy dana komenda może być wykonana, czy nie. Przekazywana
+        /// metoda musi zwrócić typ bool. True określa, że komenta może być wykoanana, false, że nie.
+        /// Przy bindingu do Buttona w praktyce metoda okresla to, czy Button jest aktywny, czy nie.
+        /// Metoda przekazywana jako drugi parametr jest wykonywana domyślne tylko raz przy tworzeniu bindingu.
+        /// Można wymusić jej ponowne wykonanie. Służy do tego metoda RaiseCanExecuteChanged obiektu 
+        /// DelegataCommand.
+        /// </summary>
         private DelegateCommand _saveUserCommand;
         public DelegateCommand SaveUserCommand
         {
@@ -107,6 +141,9 @@ namespace Prism.Module1.ViewModels
             }
         }
 
+        /// <summary>
+        /// Metoda powoduje zamknięcie danego widoku bez zapisuje danych z wykorzystaniem UserService.
+        /// </summary>
         private DelegateCommand _cancelCommand;
         public DelegateCommand CancelCommand
         {
