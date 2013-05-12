@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Prism.Module1.Service
 {
+    /// <summary>
+    /// Fakowa implementacja usługi obsługi danych użytkowników.
+    /// </summary>
     public class MockUserService : IUserService
     {
         public IEnumerable<Entities.Users.User> GetUsers()

@@ -9,6 +9,9 @@ using Microsoft.Practices.Unity;
 
 namespace Prism.Infrastucture
 {
+    /// <summary>
+    /// Klasa bazowa dla modułów.
+    /// </summary>
     public abstract class BaseModule : IModule
     {
         public IUnityContainer Container { get; private set; }
@@ -17,6 +20,9 @@ namespace Prism.Infrastucture
 
         public IEventAggregator EventAggregator { get; private set; }
 
+        /// <summary>
+        /// Domyślny region w shellu - właściwość jest po to, aby łatwiej się pracowało z tym regionem
+        /// </summary>
         protected IRegion MainRegion { get; set; }
 
         public BaseModule(IRegionManager regionManager, IUnityContainer container, IEventAggregator eventAggreagator)

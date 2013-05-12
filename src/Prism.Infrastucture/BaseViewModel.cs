@@ -10,6 +10,11 @@ using Microsoft.Practices.Prism.Regions;
 
 namespace Prism.Infrastucture
 {
+    /// <summary>
+    /// Klasa bazowa dla viewmodeli.
+    /// Klasa zawiera referencje do widoku oraz implementuje intefrejs INotifyPropertyChanged.
+    /// Więcej informacji o interfejscie znajduje się w komentarzu do klasy BaseEntity.
+    /// </summary>
     public class BaseViewModel : IViewModel
     {
         public BaseViewModel(IView view)

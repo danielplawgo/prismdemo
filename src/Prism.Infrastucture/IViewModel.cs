@@ -7,8 +7,14 @@ using Microsoft.Practices.Prism.Regions;
 
 namespace Prism.Infrastucture
 {
+    /// <summary>
+    /// Interfejs dla viewmodeli
+    /// </summary>
     public interface IViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Każdy viewmodel zawiera referencje do widoku z nim związanego.
+        /// </summary>
         IView View { get; set; }
     }
 }

@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Prism.Module1.Service
 {
+    /// <summary>
+    /// interfejsc dla usług obsługi danych użytkowników.
+    /// </summary>
     public interface IUserService
     {
         IEnumerable<User> GetUsers();
