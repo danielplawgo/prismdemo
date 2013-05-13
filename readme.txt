@@ -20,4 +20,6 @@ Aplikacji jest zbudowana z kilku projektów, gdzie poszczególne projekty maj¹ nas
 
 *Prism.Module1Test - projekt testów dla modu³u Prism.Module1.
 
+*Prism.ServiceDataAccess - projekt symuluj¹cy us³ugê wcfow¹ - do testów asynchronicznego pobierania danych.
+
 Analizê przyk³adu najlepiej zacz¹æ od projektu Prism.Shell, nastêpnie Prism.Module1 oraz Prism.Module1.Tests (przy okazji analizuj¹ kod pozosta³ych modu³ów).
