@@ -3,25 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              x:Name="this"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <TextBlock Text="Users" />
-        <ListBox ItemsSource="{Binding Users}" >
-            <ListBox.ItemTemplate>
+        <!--BusyIndicator to kontrolka z Extended WPF Toolkit, która wyścietla loadera, 
+        w momencie ładowania danych. To czy dane są ładowane jest określane przez 
+        właściwość IsBusy, która jest zbindowana z właściwością IsBusy w viewmodelu.
+        Wartość true określa, że loader ma się wyświetlić (viewmodel ustawia true
+        w momencie rozpoczęcią ładowania danych). Natomiast wartość false określa,
+        że loader ma się schować i pokazać kontrolkę z już załadowanymi danymi.
+        Viewmodel ustawia IsBusy na false po załadowaniu danych.-->
+        <xctk:BusyIndicator IsBusy="{Binding IsBusy}">
+            <!--Ustawienie BusyContentTemplate służy do wyświetlenia przycisku
+            cancel, który umozliwia anulowanie wyciągania danych.
+            Do przycisku jest podpięta komenda CancelLoadDataCommand, która anuluje
+            asynchroniczne ściąganie danych.
+            -->
+            <xctk:BusyIndicator.BusyContentTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Edit" Margin="0 0 15 0" Command="{Binding DataContext.EditUserCommand, ElementName=this}" CommandParameter="{Binding}" />
-                        <TextBlock Text="{Binding Name}" />                        
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Margin="5" Text="Loading data..."></TextBlock>
+                        <Button Margin="5" Content="Cancel"
+                            Command="{Binding DataContext.CancelLoadDataCommand,
+                            ElementName=this}"    >
+                        </Button>
                     </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </xctk:BusyIndicator.BusyContentTemplate>
+            <ListBox ItemsSource="{Binding Users}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Edit" Margin="0 0 15 0" Command="{Binding DataContext.EditUserCommand, ElementName=this}" CommandParameter="{Binding}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </xctk:BusyIndicator>
         <StackPanel Orientation="Horizontal">
             <Button Content="Add User" Command="{Binding AddUserCommand}" />
             <Button Content="Refresh list" Command="{Binding RefreshUsersListCommand}" />
         </StackPanel>
-        
+
     </StackPanel>
 </UserControl>

@@ -11,11 +11,13 @@ using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Events;
 using Prism.Entities;
+using Prism.Entities.Interfaces;
 using Prism.Module1.Messages;
 using Prism.Module1.Views;
 using Prism.Module1.Service;
 using Prism.Module1.ViewModels;
 using Prism.Infrastucture;
+using Prism.ServiceDataAccess;
 
 namespace Prism.Module1
 {
@@ -60,11 +62,12 @@ namespace Prism.Module1
         /// </summary>
         protected override void ConfigureContainer()
         {
-            Container.RegisterType<IUserService, MockUserService>();
+            Container.RegisterType<IUserService, UserService>();
             Container.RegisterType<IUsersListView, UsersListView>();
             Container.RegisterType<IUsersListViewModel, UsersListViewModel>();
             Container.RegisterType<IManageUserView, ManageUserView>();
             Container.RegisterType<IManageUserViewModel, ManageUserViewModel>();
+            Container.RegisterType<IUsersRepository, UsersRepository>();
         }
 
         /// <summary>
@@ -140,7 +143,7 @@ namespace Prism.Module1
 
             if (message.Reload)
             {
-                _usersListViewModel.Load();
+                _usersListViewModel.LoadAsync();
             }
             MainRegion.Activate(_usersListViewModel.View);
         }

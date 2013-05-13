@@ -58,12 +58,66 @@ namespace Prism.Module1.ViewModels
         }
 
         /// <summary>
-        /// Metoda odpowiedzialna za wczytanie użytkowników z wykorzystaniem UserService.
+        /// Metoda jest odpowiedzialna za wczytanie użytkowników z wykorzystaniem UserService
+        /// w sposób synchroniczny. Nie jest zalecana. Lepiej korzystać z metody LoadAsync.
         /// </summary>
         public void Load()
         {
             var data = _userService.GetUsers();
             Users = data == null ? new ObservableCollection<User>() : new ObservableCollection<User>(data);
+        }
+
+        /// <summary>
+        /// Metoda jest odpowiedzialna za wczytanie użytkowników z wykorzystaniem UserService
+        /// w sposób asynchroniczny. Jest zalecanym sposobem ładowania danych w przeciwieństwie do 
+        /// metody Load. Nie blokuje interfejsu użytkownika oraz umożliwia w ładny sposób
+        /// anulowanie operacji wczytywania danych.
+        /// Ustawienie właściwości IsBusy na true powoduje, że w interfejsie użytkownika zostanie 
+        /// wyświetlony loader. Ustawienie na flase chowa loadera.
+        /// </summary>
+        public async void LoadAsync()
+        {
+            IsBusy = true;
+            var data = await _userService.GetUsersAsync();
+            IsBusy = false;
+            Users = data == null ? new ObservableCollection<User>() : new ObservableCollection<User>(data);
+        }
+
+        /// <summary>
+        /// Właściwość określa, czy viewmodel jest zajęty ładowaniem danych czy nie.
+        /// Potrzebne do BusyIndicator.
+        /// </summary>
+        private bool _isBusy = false;
+        public  bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                if (_isBusy != value)
+                {
+                    _isBusy = value;
+                    OnPropertyChanged(() => this.IsBusy);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Komenda jest wykorzystana do anulowania operacji ładowania danych.
+        /// Użycie jej ma sens tylko w momencie wczytywania danych w sposób
+        /// asynchroniczny.
+        /// </summary>
+        private DelegateCommand _cancelLoadDataCommand;
+        public DelegateCommand CancelLoadDataCommand
+        {
+            get
+            {
+                if (_cancelLoadDataCommand == null)
+                {
+                    _cancelLoadDataCommand = new DelegateCommand(
+                        () => _userService.CancelGetUsersData());
+                }
+                return _cancelLoadDataCommand;
+            }
         }
 
         /// <summary>
@@ -81,7 +135,7 @@ namespace Prism.Module1.ViewModels
             {
                 if (_users == null)
                 {
-                    Load();
+                    LoadAsync();
                 }
                 return _users;
             }
@@ -106,7 +160,7 @@ namespace Prism.Module1.ViewModels
             {
                 if (_refreshUsersListCommand == null)
                 {
-                    _refreshUsersListCommand = new DelegateCommand(Load);
+                    _refreshUsersListCommand = new DelegateCommand(LoadAsync);
                 }
                 return _refreshUsersListCommand;
             }

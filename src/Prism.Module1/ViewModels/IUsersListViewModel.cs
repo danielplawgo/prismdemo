@@ -11,10 +11,13 @@ namespace Prism.Module1.ViewModels
 {
     public interface IUsersListViewModel : IViewModel
     {
+        bool IsBusy { get; set; }
         ObservableCollection<User> Users { get; set; }
         DelegateCommand RefreshUsersListCommand { get;  }
         DelegateCommand AddUserCommand { get; }
         DelegateCommand<User> EditUserCommand { get; }
         void Load();
+        void LoadAsync();
+        DelegateCommand CancelLoadDataCommand { get; }
     }
 }
