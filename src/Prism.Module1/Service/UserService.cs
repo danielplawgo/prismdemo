@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Practices.Prism.Events;
 using Prism.Entities.Interfaces;
 using Prism.Entities.Users;
 using Prism.Infrastucture;
+using Prism.Infrastucture.Messages;
 
 namespace Prism.Module1.Service
 {
@@ -33,15 +35,18 @@ namespace Prism.Module1.Service
         /// </summary>
         private IUsersRepository _usersRepository;
 
+        private IEventAggregator _eventAggregator;
+
         /// <summary>
         /// Określa jak dużo obiektów będzie pobierane w jednej iteracji ściągania danych z usługi.
         /// Dla testów ściągany będzie jeden obiekt.
         /// </summary>
         private int _numberOfPieces = 1;
 
-        public UserService(IUsersRepository usersRepository)
+        public UserService(IUsersRepository usersRepository, IEventAggregator eventAggregator)
         {
             _usersRepository = usersRepository;
+            _eventAggregator = eventAggregator;
         }
 
         /// <summary>
@@ -82,9 +87,17 @@ namespace Prism.Module1.Service
                 {
                     users.AddRange(_usersRepository.GetUsers(i, _numberOfPieces));
                     currentRetryCount = 0;
+                    _eventAggregator.GetEvent<UpdateStatusBarEvent>().Publish(new UpdateStatusBarMessage()
+                    {
+                        Value = "Połączony z usługą..."
+                    });
                 }
                 catch (Exception ex)
                 {
+                    _eventAggregator.GetEvent<UpdateStatusBarEvent>().Publish(new UpdateStatusBarMessage()
+                    {
+                        Value = "Rozłączony z usługą..."
+                    });
                     if (currentRetryCount < _retryCount)
                     {
                         i -= _numberOfPieces;

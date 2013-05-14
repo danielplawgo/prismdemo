@@ -134,6 +134,10 @@
       <Project>{5d59717b-bcb6-419b-8b10-d140ff3310cb}</Project>
       <Name>Prism.Module1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Prism.StatusBarModule\Prism.StatusBarModule.csproj">
+      <Project>{41bc48ad-7e1c-435e-b708-62447160972b}</Project>
+      <Name>Prism.StatusBarModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
