@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Prism.Entities.Interfaces;
 using Prism.Entities.Users;
+using Prism.Infrastucture;
 
 namespace Prism.Module1.Service
 {
@@ -44,6 +45,11 @@ namespace Prism.Module1.Service
         }
 
         /// <summary>
+        /// Wartość określa ile razy próbujemy ponowić pobranie danych.
+        /// </summary>
+        private int _retryCount = 3;
+
+        /// <summary>
         /// Synchroniczna metoda pobierająca dane.
         /// Przy asynchronicznym pobieraniu danych jest również wykorzystywana ta metoda
         /// (dlatego niektóre jest elementy mają sens tylko przy asynchroniczny uruchomieniu),
@@ -55,13 +61,14 @@ namespace Prism.Module1.Service
         /// Zwracamy wynikową kolekcję.
         /// Między poszczególnymi iteracjami sprawdzamy, czy czas nie trzeba przerwać ściągania danych,
         /// poprzez sprawdzanie flagi _cancelGetUsers, którą ustawia metoda CancelGetUsersData.
-        /// Uśpienie wątku jest po to, aby zasymulować operacje długotrwałą.
+        /// W metodzie GetUsers UserRepository jest uśpienie wątku na sekundę, aby zasymulować operacje długotrwałą.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<User> GetUsers()
         {
             List<User> users = new List<User>();
             int usersCount = _usersRepository.GetUsersCount();
+            int currentRetryCount = 0;
             for (int i = 0; i < usersCount; i += _numberOfPieces)
             {
                 if (_cancelGetUsers)
@@ -69,8 +76,23 @@ namespace Prism.Module1.Service
                     _cancelGetUsers = false;
                     break;
                 }
-                Thread.Sleep(1000);
-                users.AddRange(_usersRepository.GetUsers(i, _numberOfPieces));
+                //Obsługujemy możliwość problemu z połączeniem z usługą.
+                //Gdy wystąpi wyjątek próbujemy ponowić operację.
+                try
+                {
+                    users.AddRange(_usersRepository.GetUsers(i, _numberOfPieces));
+                    currentRetryCount = 0;
+                }
+                catch (Exception ex)
+                {
+                    if (currentRetryCount < _retryCount)
+                    {
+                        i -= _numberOfPieces;
+                        currentRetryCount++;
+                        continue;
+                    }
+                    throw new InfrastuctureException("Nastąpił problem z pobraniem danych", ex);
+                }
             }
             return users;
         }

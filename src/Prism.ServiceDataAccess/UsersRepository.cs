@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Prism.Entities.Interfaces;
 using Prism.Entities.Users;
@@ -28,8 +29,26 @@ namespace Prism.ServiceDataAccess
 
         }
 
+        /// <summary>
+        /// Wątek usypiamy ponieważ chcemy przetestować długotrwałość operacji.
+        /// Losowe wyrzucenie wyjątku ma zasymulować problem z ściąganiem danych
+        /// z usługi, np. poprzez chwilowy brak dostępu do internetu.
+        /// Wyrzucenie wyjątku służy do przetestowania, ponawiania próby
+        /// połączenia z usługą oraz ponownego pobrania danych.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public IEnumerable<User> GetUsers(int index, int count)
         {
+            Thread.Sleep(1000);
+
+            Random rand = new Random();
+            if (rand.Next(3)%3 != 0)
+            {
+                throw new Exception("Błąd w komunikacji z usługą");
+            }
+
             return _users.Skip(index).Take(count);
         }
 
