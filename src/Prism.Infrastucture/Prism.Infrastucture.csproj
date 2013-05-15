@@ -59,12 +59,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseModule.cs" />
+    <Compile Include="BaseService.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="InfrastuctureException.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="Messages\BaseMessage.cs" />
-    <Compile Include="Messages\UpdateStatusBarMessage.cs" />
+    <Compile Include="Messages\UpdateStatusMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

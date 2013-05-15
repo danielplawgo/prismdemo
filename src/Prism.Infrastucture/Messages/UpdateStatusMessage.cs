@@ -7,10 +7,10 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Prism.Infrastucture.Messages
 {
-    public class UpdateStatusBarMessage : BaseMessage
+    public class UpdateStatusMessage : BaseMessage
     {
         public string Value { get; set; }
     }
 
-    public class UpdateStatusBarEvent : CompositePresentationEvent<UpdateStatusBarMessage>{}
+    public class UpdateStatusEvent : CompositePresentationEvent<UpdateStatusMessage>{}
 }

@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Prism.Infrastucture;
 
 namespace Prism.Module1.Service
 {
     /// <summary>
     /// interfejsc dla usług obsługi danych użytkowników.
     /// </summary>
-    public interface IUserService
+    public interface IUserService : IService
     {
         /// <summary>
         /// Metoda zwracająca dane w sposób synchroniczny.

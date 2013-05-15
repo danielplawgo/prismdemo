@@ -28,14 +28,14 @@ namespace Prism.Module1.Service
     /// Asynchroniczne wyciąganie danych jest przystosowane do nowej funkcjonalności słów kluczowych
     /// async oraz await z .net 4.5. 
     /// </summary>
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
         /// <summary>
         /// źródło danych.
         /// </summary>
         private IUsersRepository _usersRepository;
 
-        private IEventAggregator _eventAggregator;
+        
 
         /// <summary>
         /// Określa jak dużo obiektów będzie pobierane w jednej iteracji ściągania danych z usługi.
@@ -43,10 +43,10 @@ namespace Prism.Module1.Service
         /// </summary>
         private int _numberOfPieces = 1;
 
-        public UserService(IUsersRepository usersRepository, IEventAggregator eventAggregator)
+        public UserService(EventAggregator eventAggregator, IUsersRepository usersRepository)
+            :base(eventAggregator)
         {
             _usersRepository = usersRepository;
-            _eventAggregator = eventAggregator;
         }
 
         /// <summary>
@@ -87,17 +87,11 @@ namespace Prism.Module1.Service
                 {
                     users.AddRange(_usersRepository.GetUsers(i, _numberOfPieces));
                     currentRetryCount = 0;
-                    _eventAggregator.GetEvent<UpdateStatusBarEvent>().Publish(new UpdateStatusBarMessage()
-                    {
-                        Value = "Połączony z usługą..."
-                    });
+                    UpdateStatus("Połączony z usługą...");
                 }
                 catch (Exception ex)
                 {
-                    _eventAggregator.GetEvent<UpdateStatusBarEvent>().Publish(new UpdateStatusBarMessage()
-                    {
-                        Value = "Rozłączony z usługą..."
-                    });
+                    UpdateStatus("Rozłączony z usługą...");
                     if (currentRetryCount < _retryCount)
                     {
                         i -= _numberOfPieces;

@@ -23,10 +23,10 @@ namespace Prism.StatusBarModule.ViewModels
             }
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<UpdateStatusBarEvent>().Subscribe(ProcessUpdateStatusBarMessage);
+            _eventAggregator.GetEvent<UpdateStatusEvent>().Subscribe(ProcessUpdateStatusBarMessage);
         }
 
-        private void ProcessUpdateStatusBarMessage(UpdateStatusBarMessage message)
+        private void ProcessUpdateStatusBarMessage(UpdateStatusMessage message)
         {
             Value = message.Value;
         }
