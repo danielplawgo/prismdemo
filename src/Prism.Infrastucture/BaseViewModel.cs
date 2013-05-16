@@ -28,14 +28,18 @@ namespace Prism.Infrastucture
         }
 
         private IView _view;
-        public IView View { get { return _view; } set
+        public IView View
         {
-            if (_view != value)
+            get { return _view; }
+            set
             {
-                _view = value;
-                OnPropertyChanged(() => this.View);
+                if (_view != value)
+                {
+                    _view = value;
+                    OnPropertyChanged(() => this.View);
+                }
             }
-        } }
+        }
 
         public event EventHandler<EventArgs> Closed;
 
@@ -50,14 +54,18 @@ namespace Prism.Infrastucture
         }
 
         private string _title;
-        public string Title { get { return _title; } set
+        public string Title
         {
-            if (_title != value)
+            get { return _title; }
+            set
             {
-                _title = value;
-                OnPropertyChanged(() => this.Title);
+                if (_title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged(() => this.Title);
+                }
             }
-        } }
+        }
 
         #region INotifyPropertyChanged implementation
 
