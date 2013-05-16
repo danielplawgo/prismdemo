@@ -35,7 +35,8 @@ namespace Prism.DialogBoxModule
 
             Window dialogBoxView = dialogBoxViewModel.View as Window;
             dialogBoxView.Owner = Application.Current.MainWindow;
-            
+            dialogBoxView.Title = viewModel.Title;
+
             if (dialogBoxView == null)
             {
                 return null;

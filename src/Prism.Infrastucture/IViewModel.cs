@@ -21,5 +21,10 @@ namespace Prism.Infrastucture
         /// Zdarzenie informujące o zamknięciu danego widoku
         /// </summary>
         event EventHandler<EventArgs> Closed;
+
+        /// <summary>
+        /// Tytuł okna
+        /// </summary>
+        string Title { get; set; }
     }
 }

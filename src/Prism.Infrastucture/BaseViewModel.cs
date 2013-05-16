@@ -27,7 +27,15 @@ namespace Prism.Infrastucture
             View.ViewModel = this;
         }
 
-        public IView View { get; set; }
+        private IView _view;
+        public IView View { get { return _view; } set
+        {
+            if (_view != value)
+            {
+                _view = value;
+                OnPropertyChanged(() => this.View);
+            }
+        } }
 
         public event EventHandler<EventArgs> Closed;
 
@@ -40,6 +48,16 @@ namespace Prism.Infrastucture
                 closed(this, args);
             }
         }
+
+        private string _title;
+        public string Title { get { return _title; } set
+        {
+            if (_title != value)
+            {
+                _title = value;
+                OnPropertyChanged(() => this.Title);
+            }
+        } }
 
         #region INotifyPropertyChanged implementation
 
@@ -94,8 +112,5 @@ namespace Prism.Infrastucture
         }
 
         #endregion
-
-
-        
     }
 }

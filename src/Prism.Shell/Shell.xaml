@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:inf="clr-namespace:Prism.Infrastucture;assembly=Prism.Infrastucture"
-        Title="MainWindow" Height="350" Width="525">
+        Title="{Binding ElementName=Main, Path=Content.ViewModel.Title}" Height="350" Width="525">
     <!--
     Shell to główne okno aplikacji. W nim definiujemy ogólny wygląd oraz regiony.
     Region to część okna do której moduły wrzucać będą swoje widoki.

@@ -56,10 +56,12 @@ namespace Prism.Module1.ViewModels
                     {
                         _user = new User();
                         IsEditMode = false;
+                        Title = "Add new user";
                     }
                     else
                     {
                         IsEditMode = true;
+                        Title = "Edit user: " + _user.Name;
                     }
                   //Pod zdarzenie PropertyChanged użytkownika podpisanymy się dlatego, aby obsłużyć zmianę widoku
                     //w momencie walidacji. W metodzie UserPropertyChanged sprawdzamy, czy użytkownik się waliduje

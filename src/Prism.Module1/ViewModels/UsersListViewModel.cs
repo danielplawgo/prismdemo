@@ -48,6 +48,8 @@ namespace Prism.Module1.ViewModels
             }
             _container = container;
 
+            Title = "Users List";
+
             //rejestrujemy się na zdarzenie zapisania danych użytkownika, aby dodać nowego użytkownika
             //do listy uzytkowników
             _eventAggregator.GetEvent<SavedUserEvent>().Subscribe(ProcessSavedUserMessage);
