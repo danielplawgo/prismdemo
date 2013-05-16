@@ -12,6 +12,7 @@ using Microsoft.Practices.Unity;
 using Microsoft.Practices.Prism.Events;
 using Prism.Entities;
 using Prism.Entities.Interfaces;
+using Prism.Infrastucture.Messages;
 using Prism.Module1.Messages;
 using Prism.Module1.Views;
 using Prism.Module1.Service;
@@ -95,9 +96,12 @@ namespace Prism.Module1
         /// </summary>
         protected override void ConfigureEventAggregator()
         {
-            EventAggregator.GetEvent<ShowUserListViewEvent>().Subscribe(ProcessShowUserListViewMessage, ThreadOption.UIThread, true);
-            EventAggregator.GetEvent<ShowManageUserEvent>().Subscribe(ProcessShowManageUserMessage, ThreadOption.UIThread, true);
-            EventAggregator.GetEvent<SavedUserEvent>().Subscribe(ProcessSavedUserEvent, ThreadOption.UIThread, true);
+            EventAggregator.GetEvent<ShowUserListViewEvent>()
+                .Subscribe(ProcessShowUserListViewMessage, ThreadOption.UIThread, true);
+            EventAggregator.GetEvent<ShowManageUserEvent>()
+                .Subscribe(ProcessShowManageUserMessage, ThreadOption.UIThread, true);
+            EventAggregator.GetEvent<SavedUserEvent>()
+                .Subscribe(ProcessSavedUserEvent, ThreadOption.UIThread, true);
         }
 
         /// <summary>
@@ -107,7 +111,8 @@ namespace Prism.Module1
         /// <param name="obj"></param>
         private void ProcessSavedUserEvent(SavedUserMessage obj)
         {
-            EventAggregator.GetEvent<ShowUserListViewEvent>().Publish(new ShowUserListViewMessage());
+            EventAggregator.GetEvent<ShowUserListViewEvent>()
+                .Publish(new ShowUserListViewMessage());
         }
 
         /// <summary>

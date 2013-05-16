@@ -52,7 +52,7 @@ namespace Prism.Module1.Service
         /// <summary>
         /// Wartość określa ile razy próbujemy ponowić pobranie danych.
         /// </summary>
-        private int _retryCount = 3;
+        private int _retryCount = 5;
 
         /// <summary>
         /// Synchroniczna metoda pobierająca dane.

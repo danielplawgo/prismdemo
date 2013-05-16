@@ -16,5 +16,10 @@ namespace Prism.Infrastucture
         /// Każdy viewmodel zawiera referencje do widoku z nim związanego.
         /// </summary>
         IView View { get; set; }
+
+        /// <summary>
+        /// Zdarzenie informujące o zamknięciu danego widoku
+        /// </summary>
+        event EventHandler<EventArgs> Closed;
     }
 }

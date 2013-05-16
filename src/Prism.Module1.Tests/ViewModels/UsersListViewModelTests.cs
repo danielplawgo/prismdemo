@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 using Prism.Module1.Messages;
 using Prism.Module1.Service;
@@ -38,6 +39,7 @@ namespace Prism.Module1.Tests.ViewModels
         IUserService _userService;
         IEventAggregator _eventAggregator;
         IUsersListView _view;
+        IUnityContainer _containter;
         UsersListViewModel _viewModel;
         
         /// <summary>
@@ -51,7 +53,8 @@ namespace Prism.Module1.Tests.ViewModels
             _userService = A.Fake<IUserService>();
             _eventAggregator = A.Fake<IEventAggregator>();
             _view = A.Fake<IUsersListView>();
-            _viewModel = new UsersListViewModel(_userService, _eventAggregator, _view);
+            _containter = A.Fake<IUnityContainer>();
+            _viewModel = new UsersListViewModel(_userService, _eventAggregator, _view, _containter);
         }
 
         /// <summary>
@@ -63,14 +66,14 @@ namespace Prism.Module1.Tests.ViewModels
         [ExpectedException(typeof(ArgumentNullException))]
         public void CheckUserServiceNull()
         {
-            UsersListViewModel viewModel = new UsersListViewModel(null, _eventAggregator, _view);
+            UsersListViewModel viewModel = new UsersListViewModel(null, _eventAggregator, _view, _containter);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CheckEventAggregatorNull()
         {
-            UsersListViewModel viewModel = new UsersListViewModel(_userService, null, _view);
+            UsersListViewModel viewModel = new UsersListViewModel(_userService, null, _view, _containter);
         }
 
         /// <summary>
@@ -120,7 +123,7 @@ namespace Prism.Module1.Tests.ViewModels
             //A<typ parametru>.Ignored
             A.CallTo(() => addedUserEvent.Subscribe(A<Action<SavedUserMessage>>.Ignored, A<ThreadOption>.Ignored, A<bool>.Ignored, A<Predicate<SavedUserMessage>>.Ignored));
 
-            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, _view);
+            UsersListViewModel viewModel = new UsersListViewModel(_userService, _eventAggregator, _view, _containter);
 
             A.CallTo(() => _eventAggregator.GetEvent<SavedUserEvent>())
                 .MustHaveHappened();

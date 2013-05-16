@@ -53,6 +53,7 @@ namespace Prism.Shell
             moduleCatalog.AddModule(typeof(Module1.Module1));//Aby skorzystać z modułu musimy go dodać do katalogu. Możemy też określić, kiedy moduł ma być ładowany
             //np. w momencie, kiedy będzie potrzebny lub przy starcie aplikacji
             moduleCatalog.AddModule(typeof (StatusBarModule.StatusBarModule));
+            moduleCatalog.AddModule(typeof (DialogBoxModule.DialogBoxModule));
         }
 
         /// <summary>

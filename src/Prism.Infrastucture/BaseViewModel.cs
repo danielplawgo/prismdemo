@@ -29,6 +29,18 @@ namespace Prism.Infrastucture
 
         public IView View { get; set; }
 
+        public event EventHandler<EventArgs> Closed;
+
+        protected void Close()
+        {
+            var closed = Closed;
+            if (closed != null)
+            {
+                EventArgs args = new EventArgs();
+                closed(this, args);
+            }
+        }
+
         #region INotifyPropertyChanged implementation
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -82,5 +94,8 @@ namespace Prism.Infrastucture
         }
 
         #endregion
+
+
+        
     }
 }

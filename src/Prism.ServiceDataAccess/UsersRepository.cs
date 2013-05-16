@@ -44,7 +44,7 @@ namespace Prism.ServiceDataAccess
             Thread.Sleep(1000);
 
             Random rand = new Random();
-            if (rand.Next(3)%3 != 0)
+            if (rand.Next(2)%2 != 0)
             {
                 throw new Exception("Błąd w komunikacji z usługą");
             }

@@ -33,7 +33,7 @@
                     </StackPanel>
                 </DataTemplate>
             </xctk:BusyIndicator.BusyContentTemplate>
-            <ListBox ItemsSource="{Binding Users}" >
+            <ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -47,6 +47,7 @@
         <StackPanel Orientation="Horizontal">
             <Button Content="Add User" Command="{Binding AddUserCommand}" />
             <Button Content="Refresh list" Command="{Binding RefreshUsersListCommand}" />
+            <Button Content="Edit selected user" Command="{Binding EditSelectedUserInDialogBoxCommand}"></Button>
         </StackPanel>
 
     </StackPanel>

@@ -122,6 +122,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Prism.DialogBoxModule\Prism.DialogBoxModule.csproj">
+      <Project>{d8d30f38-4892-45b2-a482-8815b6d819c8}</Project>
+      <Name>Prism.DialogBoxModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Prism.Entities\Prism.Entities.csproj">
       <Project>{fcfd0a58-4c9c-471a-9980-18bcd6e5accd}</Project>
       <Name>Prism.Entities</Name>

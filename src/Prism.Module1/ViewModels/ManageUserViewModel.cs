@@ -133,6 +133,7 @@ namespace Prism.Module1.ViewModels
                                     User = User,
                                     IsNewUser = !IsEditMode
                                 });
+                        Close();
                     },
                     () => User != null && User.IsValid);
 
@@ -152,9 +153,13 @@ namespace Prism.Module1.ViewModels
                 if (_cancelCommand == null)
                 {
                     _cancelCommand = new DelegateCommand(
-                     () => _eventAggregator
-                         .GetEvent<ShowUserListViewEvent>()
-                         .Publish(new ShowUserListViewMessage())
+                     () =>
+                     {
+                         _eventAggregator
+                             .GetEvent<ShowUserListViewEvent>()
+                             .Publish(new ShowUserListViewMessage());
+                         Close();
+                     }
                  );
                 }
                 return _cancelCommand;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Microsoft.Practices.Unity;
 using Prism.Entities.Users;
 using Prism.Module1.Service;
 using Microsoft.Practices.Prism.Commands;
@@ -23,8 +24,10 @@ namespace Prism.Module1.ViewModels
     {
         private IUserService _userService;
         private IEventAggregator _eventAggregator;
+        private IUnityContainer _container;
 
-        public UsersListViewModel(IUserService userService, IEventAggregator eventAggregator, IUsersListView view)
+        public UsersListViewModel(IUserService userService, IEventAggregator eventAggregator, IUsersListView view,
+            IUnityContainer container)
             : base(view)
         {
             if (userService == null)
@@ -38,6 +41,12 @@ namespace Prism.Module1.ViewModels
                 throw new ArgumentNullException("eventAggregator");
             }
             _eventAggregator = eventAggregator;
+
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+            _container = container;
 
             //rejestrujemy się na zdarzenie zapisania danych użytkownika, aby dodać nowego użytkownika
             //do listy uzytkowników
@@ -146,6 +155,44 @@ namespace Prism.Module1.ViewModels
                     _users = value;
                     OnPropertyChanged(() => this.Users);
                 }
+            }
+        }
+
+        private User _selectedUser;
+        public  User SelectedUser
+        {
+            get { return _selectedUser; } 
+            set
+            {
+                if (_selectedUser != value)
+                {
+                    _selectedUser = value;
+                    OnPropertyChanged(() => this.SelectedUser);
+                    EditSelectedUserInDialogBoxCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        private DelegateCommand _editSelectedUserInDialogBoxCommand;
+        public  DelegateCommand EditSelectedUserInDialogBoxCommand
+        {
+            get
+            {
+                if (_editSelectedUserInDialogBoxCommand == null)
+                {
+                   _editSelectedUserInDialogBoxCommand = new DelegateCommand(
+                       () =>
+                       {
+                           IManageUserViewModel viewModel = _container.Resolve<IManageUserViewModel>();
+                           viewModel.User = SelectedUser;
+                           
+                           IDialogBoxService dialogBoxService = _container.Resolve<IDialogBoxService>();
+                           
+                           dialogBoxService.ShowDialog(viewModel);
+                       },
+                       () => SelectedUser != null);
+                }
+                return _editSelectedUserInDialogBoxCommand;
             }
         }
 

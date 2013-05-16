@@ -13,9 +13,11 @@ namespace Prism.Module1.ViewModels
     {
         bool IsBusy { get; set; }
         ObservableCollection<User> Users { get; set; }
+        User SelectedUser { get; set; }
         DelegateCommand RefreshUsersListCommand { get;  }
         DelegateCommand AddUserCommand { get; }
         DelegateCommand<User> EditUserCommand { get; }
+        DelegateCommand EditSelectedUserInDialogBoxCommand { get; }
         void Load();
         void LoadAsync();
         DelegateCommand CancelLoadDataCommand { get; }

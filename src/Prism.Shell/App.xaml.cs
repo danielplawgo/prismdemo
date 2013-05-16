@@ -20,6 +20,13 @@ namespace Prism.Shell
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            Application.Current.DispatcherUnhandledException += (sender, args) =>
+            {
+                MessageBox.Show("Error");
+                args.Handled = true;
+            };
+
             Bootstrapper bootstrapper = new Bootstrapper();
             bootstrapper.Run();
         }

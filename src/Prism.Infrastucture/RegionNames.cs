@@ -20,5 +20,6 @@ namespace Prism.Infrastucture
         public static readonly string Main = "Main";
         public static readonly string Menu = "Menu";
         public static readonly string StatusBar = "StatusBar";
+        public static readonly string DialogBoxView = "DialogBoxView";
     }
 }
