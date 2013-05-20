@@ -9,6 +9,8 @@ using Prism.Entities.Interfaces;
 using Prism.Entities.Users;
 using Prism.Infrastucture;
 using Prism.Infrastucture.Messages;
+using Prism.Infrastucture.WcfService;
+using Prism.ServiceContracts;
 
 namespace Prism.Module1.Service
 {
@@ -33,9 +35,7 @@ namespace Prism.Module1.Service
         /// <summary>
         /// źródło danych.
         /// </summary>
-        private IUsersRepository _usersRepository;
-
-        
+        private IWcfCoreFactory _wcfaFactory;
 
         /// <summary>
         /// Określa jak dużo obiektów będzie pobierane w jednej iteracji ściągania danych z usługi.
@@ -43,10 +43,10 @@ namespace Prism.Module1.Service
         /// </summary>
         private int _numberOfPieces = 1;
 
-        public UserService(EventAggregator eventAggregator, IUsersRepository usersRepository)
+        public UserService(EventAggregator eventAggregator, IWcfCoreFactory wcfaFactory)
             :base(eventAggregator)
         {
-            _usersRepository = usersRepository;
+            _wcfaFactory = wcfaFactory;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Prism.Module1.Service
         public IEnumerable<User> GetUsers()
         {
             List<User> users = new List<User>();
-            int usersCount = _usersRepository.GetUsersCount();
+            int usersCount = _wcfaFactory.GetCore().GetUsersCount();
             int currentRetryCount = 0;
             for (int i = 0; i < usersCount; i += _numberOfPieces)
             {
@@ -85,7 +85,7 @@ namespace Prism.Module1.Service
                 //Gdy wystąpi wyjątek próbujemy ponowić operację.
                 try
                 {
-                    users.AddRange(_usersRepository.GetUsers(i, _numberOfPieces));
+                    users.AddRange(_wcfaFactory.GetCore().GetUsers(i, _numberOfPieces));
                     currentRetryCount = 0;
                     UpdateStatus("Połączony z usługą...");
                 }

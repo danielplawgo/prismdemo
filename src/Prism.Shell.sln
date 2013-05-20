@@ -22,6 +22,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.StatusBarModule", "Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DialogBoxModule", "Prism.DialogBoxModule\Prism.DialogBoxModule.csproj", "{D8D30F38-4892-45B2-A482-8815B6D819C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.ServiceContracts", "Prism.ServiceContracts\Prism.ServiceContracts.csproj", "{15B3E0D2-6217-493A-A690-158C497F5318}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.WCFService", "Prism.WCFService\Prism.WCFService.csproj", "{5478A69C-D545-482D-B8B2-3E9FE4783D4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.WCFConsolHost", "Prism.WCFConsolHost\Prism.WCFConsolHost.csproj", "{BEEFFDB1-24F1-467C-8E3B-C9E44DB318C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +66,18 @@ Global
 		{D8D30F38-4892-45B2-A482-8815B6D819C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8D30F38-4892-45B2-A482-8815B6D819C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8D30F38-4892-45B2-A482-8815B6D819C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15B3E0D2-6217-493A-A690-158C497F5318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15B3E0D2-6217-493A-A690-158C497F5318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15B3E0D2-6217-493A-A690-158C497F5318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15B3E0D2-6217-493A-A690-158C497F5318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5478A69C-D545-482D-B8B2-3E9FE4783D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5478A69C-D545-482D-B8B2-3E9FE4783D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5478A69C-D545-482D-B8B2-3E9FE4783D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5478A69C-D545-482D-B8B2-3E9FE4783D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEEFFDB1-24F1-467C-8E3B-C9E44DB318C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEEFFDB1-24F1-467C-8E3B-C9E44DB318C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEEFFDB1-24F1-467C-8E3B-C9E44DB318C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEEFFDB1-24F1-467C-8E3B-C9E44DB318C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

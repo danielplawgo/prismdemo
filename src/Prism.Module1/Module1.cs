@@ -18,7 +18,6 @@ using Prism.Module1.Views;
 using Prism.Module1.Service;
 using Prism.Module1.ViewModels;
 using Prism.Infrastucture;
-using Prism.ServiceDataAccess;
 
 namespace Prism.Module1
 {
@@ -68,7 +67,6 @@ namespace Prism.Module1
             Container.RegisterType<IUsersListViewModel, UsersListViewModel>();
             Container.RegisterType<IManageUserView, ManageUserView>();
             Container.RegisterType<IManageUserViewModel, ManageUserViewModel>();
-            Container.RegisterType<IUsersRepository, UsersRepository>();
         }
 
         /// <summary>

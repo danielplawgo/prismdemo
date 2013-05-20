@@ -97,9 +97,9 @@
       <Project>{42cec455-5189-4ee3-9dd0-eebab406f5e1}</Project>
       <Name>Prism.Infrastucture</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Prism.ServiceDataAccess\Prism.ServiceDataAccess.csproj">
-      <Project>{7814ac62-004a-405a-9d3e-fd16a7a68a0a}</Project>
-      <Name>Prism.ServiceDataAccess</Name>
+    <ProjectReference Include="..\Prism.ServiceContracts\Prism.ServiceContracts.csproj">
+      <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
+      <Name>Prism.ServiceContracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

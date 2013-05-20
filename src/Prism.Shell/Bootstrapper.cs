@@ -8,6 +8,7 @@ using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Unity;
 using System.Windows;
+using Prism.Infrastucture.WcfService;
 
 namespace Prism.Shell
 {
@@ -73,6 +74,7 @@ namespace Prism.Shell
             //wtedy za każdym razem byłaby zwracana nowa instacja EventAggregatora.
             //W większości sytuacji nie będziemy podawać parametru metody.
             Container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IWcfCoreFactory, WcfCoreFactory>(new ContainerControlledLifetimeManager());
         }
     }
 }
