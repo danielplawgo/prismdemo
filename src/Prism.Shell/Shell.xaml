@@ -13,12 +13,15 @@
     Dzięki czemu nie zrobimy literówki podczas określenia nazwy regionu, bo kompilator to wyłapie na etapie kompilacji.
     -->
     <DockPanel LastChildFill="True">
-        <ItemsControl x:Name="Menu" prism:RegionManager.RegionName="{x:Static inf:RegionNames.Menu}" DockPanel.Dock="Top">
+        <ItemsControl x:Name="Menu" 
+                      prism:RegionManager.RegionName="{x:Static inf:RegionNames.Menu}" DockPanel.Dock="Top">
 
         </ItemsControl>
-        <ContentControl x:Name="StatusBar" DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static inf:RegionNames.StatusBar}">
+        <ContentControl x:Name="StatusBar" DockPanel.Dock="Bottom" 
+                        prism:RegionManager.RegionName="{x:Static inf:RegionNames.StatusBar}">
             
         </ContentControl>
-        <ContentControl x:Name="Main" prism:RegionManager.RegionName="{x:Static inf:RegionNames.Main}"></ContentControl>
+        <ContentControl x:Name="Main" 
+                        prism:RegionManager.RegionName="{x:Static inf:RegionNames.Main}"></ContentControl>
     </DockPanel>
 </Window>

@@ -44,9 +44,9 @@ namespace Prism.ServiceDataAccess
             Thread.Sleep(1000);
 
             Random rand = new Random();
-            if (rand.Next(2)%2 != 0)
+            if (rand.Next(4)%4 != 0)
             {
-                throw new Exception("Błąd w komunikacji z usługą");
+                throw new Exception("Problem z pobraniem danych z bazy");
             }
 
             return _users.Skip(index).Take(count);
